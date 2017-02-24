@@ -8,7 +8,7 @@ describe('Function transformCheckpoint', function() {
 	it('Function transformCheckpoint without parameter should return false', function() {
 		expect(transformCheckpoint()).to.be.false;
 	});
-	it('Function transformCheckpoint avec parametre doit retourner true et supprimer les parametres', function() {
+	it('Function transformCheckpoint avec parametre doit retourner true et ne pas modifier les parametres', function() {
 		var tmp = {
 			id: 'whataw0nd3rful1d',
 			uuid: 'whataw0nd3rful1d',
@@ -28,12 +28,11 @@ describe('Function transformCheckpoint', function() {
 		}
 		expect(transformCheckpoint(tmp)).to.be.true;
 		
-		expect(tmp.id).to.equal(undefined);
-		expect(tmp.address).to.equal(undefined);
-		expect(tmp.addressType).to.equal(undefined);
-		expect(tmp.advertisement).to.equal(undefined);
-		expect(tmp.rssi).to.equal(undefined);
-		expect(tmp.services).to.equal(undefined);	
+		expect(tmp.id).to.equal('whataw0nd3rful1d');
+		expect(tmp.address).to.equal('unknown');
+		expect(tmp.addressType).to.equal('unknown');
+		expect(tmp.rssi).to.equal(-66);
+		expect(tmp.services).to.equal(null);	
 	});
 
 });
