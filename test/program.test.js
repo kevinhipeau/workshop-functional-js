@@ -31,6 +31,7 @@ describe('Function transformCheckpoint', function() {
 		expect(tmp.id).to.equal('whataw0nd3rful1d');
 		expect(tmp.address).to.equal('unknown');
 		expect(tmp.addressType).to.equal('unknown');
+		expect(tmp.advertisement.serviceUuids[0]).to.equal('abcd');
 		expect(tmp.rssi).to.equal(-66);
 		expect(tmp.services).to.equal(null);	
 	});
