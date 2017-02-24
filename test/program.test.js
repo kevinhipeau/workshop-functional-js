@@ -26,7 +26,7 @@ describe('Function transformCheckpoint', function() {
 			services: null,
 			state: 'outofcontrol'
 		}
-		expect(transformCheckpoint(tmp).id).to.equal(undefined);
+		expect(transformCheckpoint(tmp).id).to.equal(null);
 		expect(tmp.id).to.equal('whataw0nd3rful1d');
 		expect(tmp.address).to.equal('unknown');
 		expect(tmp.addressType).to.equal('unknown');

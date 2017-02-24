@@ -17,15 +17,15 @@ let calculateDistanceWithRssi = rssi => {
   }
 };
 function clone(obj) {
-    if (null == obj || "object" != typeof obj) return obj;
-    var copy = obj.constructor();
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-    }
-    return copy;
+  if (null == obj || "object" != typeof obj) return obj;
+  var copy = obj.constructor();
+  for (var attr in obj) {
+    if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+  }
+  return copy;
 }
 let transformCheckpoint = (checkpoint) => {
-  var checkpoint = clone(checkpoint)
+  var checkpoint = clone(checkpoint);
   if (checkpoint) {
     // Get back essential properties
     checkpoint.serviceData = checkpoint.advertisement.serviceData;
@@ -48,21 +48,37 @@ let transformCheckpoint = (checkpoint) => {
 
 let showCheckpoint = (checkpoint, index) => {
   console.log(chalk.green('CHECKPOINT'), chalk.yellow(index + 1));
-  _.forEach(_.pickBy(checkpoint,function(item,key){
-    return checkpoint.hasOwnProperty(key) && item != null
-  }),function (item,key) {
-      console.log(chalk.cyan(key.toUpperCase()), checkpoint[key]);
+   var list = _.sortBy(checkpoint, function(o) {
+    return o.distance; 
+  });
+
+  var pick = _.pickBy(checkpoint,function(item,key){
+    return checkpoint.hasOwnProperty(key) && item != null;
+  });
+
+  _.mapKeys(pick,function(item,key){
+    if (key == "distance") {
+      if (item < 1) {
+        item = item *100 + " cm";
+      }else{
+        item = item + " km";
+      }
+    };
+    console.log(chalk.cyan(key.toUpperCase()), item);
+    return item
   })
+
   console.log('\n');
 };
 
 let run = () => {
   let checkpoints = checkpointsService.getCheckpoints();
+
   checkpoints.forEach(function(item,index) {
     let checkpoint = item;
     showCheckpoint(transformCheckpoint(checkpoint), index);
   })
- 
+
 };
 
 module.exports = {
