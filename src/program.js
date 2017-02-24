@@ -40,7 +40,7 @@ let transformCheckpoint = (checkpoint) => {
     delete checkpoint.rssi;
     delete checkpoint.services;
     // Everything is ok
-    return true;
+    return checkpoint;
   } else {
     return false;
   }
@@ -48,6 +48,8 @@ let transformCheckpoint = (checkpoint) => {
 
 let showCheckpoint = (checkpoint, index) => {
   console.log(chalk.green('CHECKPOINT'), chalk.yellow(index + 1));
+  console.log(checkpoint)
+ 
   for (var property in checkpoint) {
     if (checkpoint.hasOwnProperty(property)) {
       console.log(chalk.cyan(property.toUpperCase()), checkpoint[property]);
@@ -58,11 +60,11 @@ let showCheckpoint = (checkpoint, index) => {
 
 let run = () => {
   let checkpoints = checkpointsService.getCheckpoints();
-  for (var i = 0; i < checkpoints.length; i++) {
-    let checkpoint = checkpoints[i];
-    transformCheckpoint(checkpoint);
-    showCheckpoint(checkpoint, i);
-  }
+  checkpoints.forEach(function(item,index) {
+    let checkpoint = item;
+    showCheckpoint(transformCheckpoint(checkpoint), index);
+  })
+ 
 };
 
 module.exports = {
