@@ -1,5 +1,5 @@
 let chalk = require('chalk');
-
+var _ = require('lodash');
 let checkpointsService = require('./staticCheckpoints');
 
 
@@ -48,13 +48,11 @@ let transformCheckpoint = (checkpoint) => {
 
 let showCheckpoint = (checkpoint, index) => {
   console.log(chalk.green('CHECKPOINT'), chalk.yellow(index + 1));
-  console.log(checkpoint)
- 
-  for (var property in checkpoint) {
-    if (checkpoint.hasOwnProperty(property)) {
-      console.log(chalk.cyan(property.toUpperCase()), checkpoint[property]);
-    }
-  }
+  _.forEach(_.pickBy(checkpoint,function(item,key){
+    return checkpoint.hasOwnProperty(key) && item != null
+  }),function (item,key) {
+      console.log(chalk.cyan(key.toUpperCase()), checkpoint[key]);
+  })
   console.log('\n');
 };
 
